@@ -15,7 +15,9 @@ def center(s, width, char=' '):
 ###########################################
 
 a = input("1- Suite arthmétique \n2- Suite géométrique \n|-> ")
-while a != '1' and a != '2': a = input("|-> ")
+while a != '1' and a != '2':
+  if a == '': raise KeyboardInterrupt
+  a = input("|-> ")
 u, isnan, text = [[],[],["Départ :","Arrivé :"]], False, """
 Entrées :
 Départ : u_{} = {}
@@ -94,10 +96,15 @@ if not isnan:
       except OverflowError: print("u_"+t+" = inf")
       t = input("u_")
 
-  if input("Calculer la somme des termes ? \n[o/n]: ") == 'o':
+
+#  if input("\nCalculer la limite de la \nsuite ? [o/n]: ") == 'o':
+#    pass
+
+
+  if input("\nCalculer la somme des termes ? \n[o/n]: ") == 'o':
     print("> N'écrivez rien pour calculer \nla somme à partir des valeurs \nde la suite.\n")
     s, text = [["Début :", "Fin :"]], """
-    Entrées :
+Entrées :
 Début : u_{} = {}
 Fin : u_{} = {}
 --------------------
@@ -119,7 +126,7 @@ S_n = {}
         if tt == int(tt): tt = int(tt)
         s.append([t, tt])
     except (ValueError, SyntaxError): s += [u[0], u[1]]
-    del u, t, tt, isnan
+    del u, t, tt, isnan, u0
     s.pop(0)
     if s[0][0] > s[1][0]: s.reverse()
 
@@ -143,8 +150,8 @@ S_n = {}
       ))
 
     else:
-      up, m, down = "1-{}^({}+1)".format('('+r+')' if pas < 0 else r, d), str(round(u0, 5))+'x', "1-"+('('+r+')' if pas < 0 else r)
-      b, bb, c = max(len(up), len(down)), len(m), round(u0*((1-pas**(d+1))/(1-pas)), 5)
+      up, m, down = "1-{}^({}+1)".format('('+r+')' if pas < 0 else r, d), str(x)+'x', "1-"+('('+r+')' if pas < 0 else r)
+      b, bb, c = max(len(up), len(down)), len(m), round(s[0][1]*((1-pas**(d+1))/(1-pas)), 5)
 
       print(text.format(
         s[0][0], x,
@@ -154,10 +161,10 @@ S_n = {}
        ' '*bb+center(down, b),
        c,
        "    1-q^(n+1)",
-       "u_0x---------",
+       "u_ix---------",
        "       1-q",
        c
       ))
 
-    del x, y, d, up, m, down, b, bb, c, s, u0, pas, text
+    del a, x, y, d, up, m, down, b, bb, c, s, pas, text
 else: input()
